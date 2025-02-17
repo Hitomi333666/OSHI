@@ -3,7 +3,6 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <>
-      <p>Footer</p>
       <footer className="footer bg-neutral text-neutral-content items-center p-4">
         <aside className="grid-flow-col items-center">
           <svg

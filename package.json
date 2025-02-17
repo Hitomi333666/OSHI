@@ -12,6 +12,7 @@
     "@heroicons/react": "2.2.0",
     "@tailwindcss/typography": "0.5.16",
     "daisyui": "4.12.23",
+    "microcms-js-sdk": "^3.1.2",
     "next": "15.0.4",
     "react": "19.0.0",
     "react-dom": "19.0.0"

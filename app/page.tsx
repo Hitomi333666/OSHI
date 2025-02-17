@@ -1,17 +1,17 @@
 // app/page.tsx
-import Image from "next/image";
-import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
-import Footer from "@/components/Footer";
+import Slider from "@/components/Slider";
+import { getBlogPosts } from "@/app/actions/blog";
 
-export default function Home() {
+export default async function Home() {
+  const posts = await getBlogPosts();
+
   return (
-    <>
-      <Navbar />
+    <div className="flex flex-col ">
       <Hero />
+      <Slider posts={posts} />
       <Features />
-      <Footer />
-    </>
+    </div>
   );
 }
