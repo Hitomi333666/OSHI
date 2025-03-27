@@ -7,11 +7,5 @@ import { getBlogPosts } from "@/app/actions/blog";
 export default async function Home() {
   const posts = await getBlogPosts();
 
-  return (
-    <div className="flex flex-col ">
-      <Hero />
-      <Slider posts={posts} />
-      <Features />
-    </div>
-  );
+  return <div className="flex flex-col "></div>;
 }
