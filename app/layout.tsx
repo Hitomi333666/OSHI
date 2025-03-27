@@ -4,7 +4,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Yomogi } from "next/font/google";
 import { Hachi_Maru_Pop } from "next/font/google";
-import { Yomogi_Code } from "next/font/google";
 import { Rampart_One } from "next/font/google";
 import { Yuji_Mai } from "next/font/google";
 const mainFont = Yomogi({
