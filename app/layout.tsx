@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Yomogi } from "next/font/google";
+import { CartProvider } from "@/contexts/CartContext";
+import Cart from "@/components/Cart";
 import { Hachi_Maru_Pop } from "next/font/google";
 import { Rampart_One } from "next/font/google";
 import { Yuji_Mai } from "next/font/google";
@@ -29,7 +31,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" data-theme="retro">
-      <body className={`${mainFont.className}`}>{children}</body>
+      <body className={`${mainFont.className}`}>
+        <CartProvider>
+          {children}
+          <Cart />
+        </CartProvider>
+      </body>
     </html>
   );
 }

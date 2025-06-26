@@ -1,22 +1,55 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
+provider = "prisma-client-js"
 }
-
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+provider = "postgresql"
+url = env("DATABASE_URL")
 }
-
-// ここから下を追加する
 model User {
-  id        String  @id @default(cuid())
-  username  String  @unique
-  password  String
-  nickname  String
+id String @id @default(cuid())
+username String @unique
+password String
+nickname String
+avatar String? // ユーザーアバター画像のパス (null許可)
+role String @default("user") // デフォルトは一般ユーザー
+comments Comment[] // ユーザーが投稿したコメント (1:N)
+favorites Favorite[] // ユーザーがお気に入り登録したブログ (1:N)
+ratings Rating[] // ユーザーが投稿した評価 (1:N)
+receipts Receipt[] // ユーザーが購入した書籍のリスト (1:N)
+}
+model Comment {
+id String @id @default(cuid())
+userId String // ユーザーID (外部キー)
+blogId String // 対象のブログID
+content String // コメント内容
+createdAt DateTime @default(now()) // コメント投稿日時
+user User @relation(fields: [userId], references: [id]) // ユーザーリレーション
+}
+model Favorite {
+id String @id @default(cuid())
+userId String // ユーザーID (外部キー)
+blogId String // 対象のブログID
+createdAt DateTime @default(now()) // 登録日時
+user User @relation(fields: [userId], references: [id]) // ユーザーリレーション
+}
+model Rating {
+id String @id @default(cuid())
+userId String // ユーザーID (外部キー)
+blogId String // 評価対象のブログID
+rating Int // 星評価 (1〜5など)
+createdAt DateTime @default(now()) // 評価日時
+user User @relation(fields: [userId], references: [id])
+@@unique([userId, blogId]) // 複合ユニークキーを追加
+}
+model Receipt {
+id String @id @default(cuid()) // レシートID
+userId String // ユーザーID (外部キー)
+bookId String // 購入した書籍のID (Supabase上のパス)
+stripePaymentId String // Stripeの決済ID
+price Int // 購入価格（通貨単位）
+purchasedAt DateTime @default(now()) // 購入日時
+user User @relation(fields: [userId], references: [id])
+@@unique([userId, bookId]) // 同じユーザーが同じ本を複数回購入しないようにする
 }

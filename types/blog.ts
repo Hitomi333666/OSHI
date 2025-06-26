@@ -10,4 +10,15 @@ export type BlogPost = {
   };
   tags: string;
   updatedAt: string;
+  favoriteCount: number;
+  ratingAvg: number;
+  comments: {
+    user: {
+      nickname: string;
+      avatar: string | null;
+      role: string; // role プロパティが存在
+    };
+    content: string;
+    createdAt: string;
+  }[];
 };

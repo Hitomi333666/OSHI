@@ -4,13 +4,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { loginUser } from "../../actions/auth"; // server action をインポート
+import { loginUser } from "@/app/actions/auth"; // server action をインポート
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const { setLoggedIn } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +28,8 @@ export default function LoginPage() {
       }
 
       if (result.token) {
+        setLoggedIn(true, result.avatar || "", result.nickname || "");
+
         // トークンをセッションストレージに保存
         sessionStorage.setItem("token", result.token);
 

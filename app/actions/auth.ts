@@ -2,7 +2,7 @@
 "use server";
 
 import { prisma } from "@/libs/prisma";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // ログイン
@@ -21,7 +21,7 @@ export async function loginUser(username: string, password: string) {
     expiresIn: "1h",
   });
 
-  return { success: true, token }; // 成功時にはトークンを含む
+  return { success: true, token, avatar: user.avatar, nickname: user.nickname }; // 成功時にはトークンを含む
 }
 
 // ユーザー登録
@@ -75,7 +75,15 @@ export async function validateTokenAndCheckUser(token: string) {
 export async function fetchUserProfile(token: string) {
   const result = await validateTokenAndCheckUser(token);
   if (result.success && result.user) {
-    return { success: true, nickname: result.user.nickname || "" };
+    return {
+      success: true,
+      user: {
+        avatar: result.user.avatar || "",
+        nickname: result.user.nickname || "",
+        id: result.user.id,
+        role: result.user.role,
+      },
+    };
   } else {
     return result;
   }
